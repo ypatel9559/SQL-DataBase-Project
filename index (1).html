@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+
+  <head>
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300i,400" rel="stylesheet">
+    <style>
+      body {
+  background-color:  #e9ae77;;
+      }
+   
+      .flip-card {
+        background-image: url("bg.jpg");
+        perspective: 1000px;
+        margin:10px;
+        margin-top:50px;
+        display:inline-block;
+        border-radius:20px;
+        box-shadow: -1rem 0 3rem #000;
+        color:#e9ae77;
+        transition: 0.4s ease-out;
+        width:270px;
+        height: 370px;
+        font-family: 'Open Sans', sans-serif;
+  
+      }
+      .flip-card:hover {
+  transform: translateY(-20px);
+  transition: 0.5s ease-out;
+
+}
+
+      .active {
+  background-color: rgba(144, 101, 200, 0.75);
+   
+}
+header{
+  height: 250px;
+  margin: 0;
+  border-radius: 20px;
+  box-shadow: -1rem 0 3rem red;
+
+
+
+
+  width: 100%;        
+  background-image: url("headpic3.jpg");
+
+
+
+
+
+
+
+}
+#butt{
+  height:50px;
+  width:200px;
+  background-image:linear-gradient(125deg,  #001510,#00bf8f,#8E0E00,#1F1C18,#17141d);
+  background-size: 400%;
+  animation: bganimation 8s infinite;
+  border-radius:15px;
+  margin-top: 30px;
+  margin-left: 50%;
+  border:    black;
+  font-family: 'Open Sans', sans-serif;
+  color: white;
+  box-shadow: -1rem 0 3rem #17141d;
+  position:absolute;
+
+}
+#request{
+  border-radius: 20px;
+  border-color: black;
+  background-color: black;
+  width: 200px;
+  height:20px;
+  color:#e9ae77;
+  box-shadow: 0 4px 8px 0 red;
+  margin-top: 37px;
+  margin-left: 33%;
+  padding: 5px;
+  position: absolute;
+
+
+
+
+
+
+
+}
+
+@keyframes bganimation{
+  0%{
+    background-position: 0% 50%;
+  }
+  50%{
+    background-position: 100% 50%;
+  }
+  100%{
+    background-position: 0% 50%;
+  }
+}
+
+p{
+  font-size: 15px;
+  font-family: 'Open Sans', sans-serif;
+  color: white;
+}
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  border-radius: 20px;
+
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  padding: 10px;
+}
+
+.flip-card-front {
+  background-color: #17141d;
+  color:#e9ae77;
+  font-size: 7px;
+}
+
+.flip-card-back {
+  background-image:linear-gradient(125deg,  #001510,#570c8c,#8E0E00,#1F1C18,#17141d);
+  animation: bganimation 8s infinite;
+  background-size: 400%;
+  
+  color: white;
+  transform: rotateY(180deg);
+}
+
+.mappic{
+    width: 270px;
+    height: 250px;
+    border-radius: 20px;
+
+}
+.backtitle{
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15pt;
+   margin-top: -2px;
+   color: #e9ae77;
+
+}
+.names{
+  font-size: 20pt;
+
+}
+.dp{
+  margin-top: -17px;
+}
+.ap{
+  margin-top: -14.5px;
+}
+.Rm{
+  margin-top: -13px;
+}
+.Ds{
+  margin-top: -11.7px;
+}
+
+
+
+
+
+    </style>
+    
+    
+
+<!-- --------------------------------------------------------------------------------- -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+      
+    <script>
+      var data;      
+      function getData(){
+      
+        $.get("http://10.79.167.121:8500/I", function(results){
+          data = JSON.parse(results);
+          //document.write(data);
+        });
+
+
+        $.get("http://10.79.167.121:8500/pat", function(results2){
+          data2 = JSON.parse(results2);
+          //document.write(data);
+        });
+
+
+
+
+
+
+
+      }
+      
+      function getHospitalNames(){
+        var request=document.getElementById("request").value;
+        var build ="";
+        var key="G1ZGb6SZPd4xMqZo8YDyGZVugdtuLtOw";
+        var output = document.getElementById("output");
+
+
+
+        for (var i=0; i<data.length; i++){
+          var lat = data[i].Latitude;
+        var lon = data[i].Longitude;
+        var url = "https://www.mapquestapi.com/staticmap/v5/map?key="+key+"&center=" +lat+ "," + lon + "&zoom=18&size=@2x";
+        var boro=data[i].Borough;
+
+          if(boro.toLowerCase().indexOf(request.toLowerCase())!=-1){
+
+          build+= "<div class='flip-card'><div class='flip-card-inner'><div class='flip-card-front'><h1 class='names'>" + data[i].FacilityName +"<p>Facility Type:"+data[i].FacilityType+"</p> <p>Borough: "+data[i].Borough+"</p><p>Phone: "+data[i].Phone+"</p><p>Email: "+data[i].Email+"</p><p>Ranking: "+data[i].Ranking+"</p></div><div class='flip-card-back'><a href="+url+"target='_blank'><img class='mappic' src="+url+"></a><p class='backtitle'>Patient & Doctor Info</p><p class='dp'>DailyPatient: "+data2[i].DailyPatient+"</p><p class='ap'>Active Patient: "+data2[i].ActivePatient+"</p><p class='Rm'>Available Rooms: "+data2[i].Rooms+"</p><p class='Ds'>Doctors: "+data2[i].Doctors+"</p></div></div></div>";
+          }
+        }
+        output.innerHTML = build;
+      }
+      
+    </script>
+  </head>
+  
+  <body onload="getData()">
+    <header>
+    <input type="text" id="request" placeholder=" Enter Borough">
+    <input id="butt" type="button" onclick="getHospitalNames()" value= "Display Hospitals">
+  </header>
+    
+    
+    <div id="output">
+  </div>
+    
+  
+  <body>
+
+</html>
